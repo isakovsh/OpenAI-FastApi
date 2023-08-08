@@ -7,9 +7,10 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 import qdrant_client
 import os
 import openai
-from pypdf import PyPDFLoader
+from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
 import re
+from langchain.document_loaders import WebBaseLoader
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -47,14 +48,6 @@ def get_pdf_text(file):
   text = re.sub('\n','',text)
   return text
 
-def get_chunks(text):
-  splitter = CharacterTextSplitter(
-      separator = "\n",
-      chunk_size = 1000,
-      chunk_overlap = 200,
-      length_function = len
-  )
-
 def add_pdf_to_vector_stor(file,vector_store):
     
   # get text from pdf file
@@ -80,6 +73,22 @@ def add_pdf_to_vector_stor(file,vector_store):
   return True
 
 
+def get_completion(prompt, model="gpt-3.5-turbo"):
+    messages = [{"role": "user", "content": prompt}]
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        temperature=0, # this is the degree of randomness of the model's output
+    )
+    return response.choices[0].message["content"]
 
 
-      
+def get_web_site(web_site_link):
+  loader = WebBaseLoader(web_site_link)
+  docs = loader.load()
+  text = ""
+  for i in range(len(docs)):
+    text += docs[i].page_content
+  text = re.sub('\n','',text)
+  return text
+   
