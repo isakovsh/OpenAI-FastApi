@@ -1,1 +1,1 @@
-# paid_project
+# OpenAIAPI + FasApi
