@@ -42,9 +42,7 @@ def get_retrieval_qa(query,vector_store):
 def get_pdf_text(file):
   loader = PyPDFLoader(file)
   docs = loader.load()
-  text = ""
-  for i in range(len(docs)):
-    text += docs[i].page_content
+  text = " ".join(docs[i].page_content for i in range(len(docs)))
   text = re.sub('\n','',text)
   return text
 
@@ -53,9 +51,7 @@ def add_pdf_to_vector_stor(file,vector_store):
   # get text from pdf file
   loader = PyPDFLoader(file)
   docs = loader.load()
-  text = ""
-  for i in range(len(docs)):
-    text += docs[i].page_content
+  text = " ".join(docs[i].page_content for i in range(len(docs)))
   text = re.sub('\n','',text)
 
   # create chunks
@@ -72,23 +68,10 @@ def add_pdf_to_vector_stor(file,vector_store):
 
   return True
 
-
-def get_completion(prompt, model="gpt-3.5-turbo"):
-    messages = [{"role": "user", "content": prompt}]
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=messages,
-        temperature=0, # this is the degree of randomness of the model's output
-    )
-    return response.choices[0].message["content"]
-
-
 def get_web_site(web_site_link):
   loader = WebBaseLoader(web_site_link)
   docs = loader.load()
-  text = ""
-  for i in range(len(docs)):
-    text += docs[i].page_content
+  text = " ".join(docs[i].page_content for i in range(len(docs)))
   text = re.sub('\n','',text)
   return text
    
