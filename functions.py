@@ -6,9 +6,9 @@ import qdrant_client
 import os
 import openai
 from dotenv import load_dotenv
-from fastapi import FastAPI
-
-
+from langchain.document_loaders import PyPDFLoader 
+from langchain.text_splitter import CharacterTextSplitter
+import re
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -26,11 +26,36 @@ vectorstore = Qdrant(
         embeddings=embeddings
     )
 
-llm = OpenAI()
-qa_chain = RetrievalQA.from_chain_type(
-    llm,
-    retriever=vectorstore.as_retriever()
-)
 
-# question = input("Query:")
-qa = RetrievalQA.from_chain_type(llm=OpenAI(openai_api_key=""), chain_type="stuff", retriever=vectorstore.as_retriever()) 
+def add_pdf_to_vector_stor(file):
+    
+  # get text from pdf file
+  loader = PyPDFLoader(file)
+  docs = loader.load()
+  text = " ".join(docs[i].page_content for i in range(len(docs)))
+  text = re.sub('\n','',text)
+
+  # create chunks
+  splitter = CharacterTextSplitter(
+       separator='\n',
+       chunk_size =1000,
+       chunk_overlap = 200,
+       length_function = len
+    )
+  text = splitter.split_text(text)
+
+  # add text chunks to vector store
+  vectorstore.add_texts(text)
+
+  return True
+
+
+def qa(query):
+    llm = OpenAI()
+    qa = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff",
+        retriever=vectorstore.as_retriever()
+        ) 
+    result = qa.run(query)
+    return result
