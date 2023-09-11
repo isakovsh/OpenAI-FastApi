@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-import streamlit as st
+from langchain import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.llms import OpenAI
 from langchain.vectorstores import Qdrant
@@ -31,13 +31,16 @@ def get_vector_store():
   return vector_store
 
 def get_retrieval_qa(query,vector_store):
+
   qa = RetrievalQA.from_chain_type(
-        llm=OpenAI(),
+        llm=OpenAI(max_tokens=100),
         chain_type="stuff",
-        retriever=vector_store.as_retriever()
+        retriever=vector_store.as_retriever(),
+        
     )
   answer = qa.run(query)
   return answer
+
 
 def get_pdf_text(file):
   loader = PyPDFLoader(file)
