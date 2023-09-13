@@ -32,7 +32,7 @@ async def add_data(request: Request):
         add_pdf_to_vector_stor(temp_file_path)
         os.remove(temp_file_path)
         return templates.TemplateResponse(
-                "result.html",
+                "dashboard.html",
                 {"request": request, "text": "Sucsessfully uploaded data"}
         )
     return templates.TemplateResponse('dashboard.html',{'request':request})
