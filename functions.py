@@ -59,12 +59,4 @@ def qa(query):
         ) 
     result = qa.run(query)
     return result
-
-
-def get_pdf(file):
-    loader = PyPDFLoader(file)
-    docs = loader.load()
-    text = " ".join(docs[i].page_content for i in range(len(docs)))
-    text = re.sub('\n','',text)
-    return text
     
