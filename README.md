@@ -1,10 +1,13 @@
-# Project Name
-
-**QA Chatbot Generator**
+# StarAI
 
 ## Description
 
 This web application allows users to create their own Question-Answer (QA) chatbots by uploading their own data. Whether you want to build a chatbot for customer support, FAQs, or any other purpose, this tool simplifies the process.
+
+## Demo
+<hr>
+   <img align="center" alt="GIF" src="https://github.com/isakovsh/StarAI/blob/master/demo.gif?raw=true"/>
+ <hr>
 
 ## Table of Contents
 
@@ -20,16 +23,22 @@ Follow these instructions to get started with the QA Chatbot Generator:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/qa-chatbot-generator.git
+   git clone https://github.com/isakovsh/StarAI.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd qa-chatbot-generator
+   pip install -r requirements.txt
    ```
 
-3. [Additional setup steps if necessary]
+3. Register https://qdrant.tech and create cluster
+
+4. Run project
+   ```bash
+   uvicorn main:app --reload 
+   ```
+   
 
 ## Usage
 
