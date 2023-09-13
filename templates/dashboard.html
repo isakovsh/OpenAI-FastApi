@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Document</title>
+<link rel="stylesheet" href="../static/style.css">
+
+<style>
+    body{
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    div{
+        display: flex;
+        width: 400px;
+        height: 400px;
+        background: #c9d8dd;
+        margin: 0 auto;
+        border-radius: 5px;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn{
+        padding: 5px 20px;
+    }
+</style>
+</head>
+<body>
+    <div>
+    <form method="POST" enctype="multipart/form-data">
+        <h1>Upload File</h1>
+        <input type="file" name="file"><br>
+        <input class="btn" type="submit" value="submit">
+    </form>
+    </div>
+</body>
+</html>
