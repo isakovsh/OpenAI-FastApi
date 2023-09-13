@@ -45,9 +45,9 @@ def add_pdf_to_vector_stor(file):
   text = splitter.split_text(text)
 
   # add text chunks to vector store
-  vectorstore.add_texts(text)
+  result = vectorstore.add_texts(text)
 
-  return True
+  return result
 
 
 def qa(query):
@@ -59,3 +59,12 @@ def qa(query):
         ) 
     result = qa.run(query)
     return result
+
+
+def get_pdf(file):
+    loader = PyPDFLoader(file)
+    docs = loader.load()
+    text = " ".join(docs[i].page_content for i in range(len(docs)))
+    text = re.sub('\n','',text)
+    return text
+    
